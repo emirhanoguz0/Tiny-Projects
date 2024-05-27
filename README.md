@@ -1,2 +1,1 @@
-# Mini-Games
-Tiny little games
+# Tiny-Projects
