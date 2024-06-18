@@ -1,6 +1,5 @@
 #include<iostream>
 #include<cstring>
-#include<locale.h>
 #include<ctime>
 #include<cstdlib>
 
@@ -9,9 +8,9 @@ using namespace std;
 
 void Hangman(int s) {
     switch(s) {
-        	
+
 	case 1:
-	
+
 	cout<<" +---+\n"
     	<<" |   |\n"
     	<<"     |\n"
@@ -20,9 +19,9 @@ void Hangman(int s) {
     	<<"     |\n"
     	<<"==========\n";
     	break;
-    	
+
 		case 2:
-		
+
 	cout<<" +---+\n"
     	<<" |   |\n"
     	<<" O   |\n"
@@ -31,9 +30,9 @@ void Hangman(int s) {
     	<<"     |\n"
     	<<"==========\n";
 		break;
-		
+
 		case 3:
-	
+
 	cout<<" +---+\n"
     	<<" |   |\n"
     	<<" O   |\n"
@@ -42,9 +41,9 @@ void Hangman(int s) {
     	<<"     |\n"
     	<<"==========\n";
 		break;
-		
+
 		case 4:
-	
+
 	cout<<" +---+\n"
     	<<" |   |\n"
     	<<" O   |\n"
@@ -53,9 +52,9 @@ void Hangman(int s) {
     	<<"     |\n"
     	<<"==========\n";
     	break;
-		
+
 		case 5:
-	
+
 	cout<<" +---+\n"
     	<<" |   |\n"
     	<<" O   |\n"
@@ -64,9 +63,9 @@ void Hangman(int s) {
     	<<"     |\n"
     	<<"==========\n";
     	break;
-		
+
 		case 6:
-	
+
 	cout<<" +---+\n"
     	<<" |   |\n"
     	<<" O   |\n"
@@ -75,9 +74,9 @@ void Hangman(int s) {
     	<<"     |\n"
     	<<"==========\n";
     	break;
-		
+
 		case 7:
-	
+
 	cout<<" +---+\n"
     	<<" |   |\n"
     	<<" O   |\n"
@@ -85,36 +84,35 @@ void Hangman(int s) {
     	<<"/ \\  |\n"
     	<<"     |\n"
     	<<"==========\n";
-    	break;		
-	
+    	break;
+
     }
 }
 
-const char* kelimegrup[33] = {"banana", "dut", "nar", "elma", "roka", "kivi", "ayva", "turp", 
-"erik","incir", "armut", "kiraz", "kavun", "vi�ne", "�ilek", "havu�", "mango", "limon",
-"biber", "marul", "kabak", "karpuz", "kay�s�", "pancar", "ananas", "zeytin", "lahana",
-"patates", "bezelye", "avokado", "domates", "fasulye", "brokoli"};
+const char* words[33] = {"banana", "apple", "cherry", "kiwi", "lemon", "papaya", "watermelon", "avocados",
+"pineapple","strawberries", "grape", "orange", "pomegranate", "mangosteen", "apricot", "coconut", "mango", "fig",
+"tangerine", "pear", "nance", "muskmelon", "hazelnut", "dates", "lime", "olive", "peach",
+"potato", "peas", "jujube", "tomato", "beans", "broccoli"};
 
-char* cevap;
-char* teh; // tahmin edilen harfler
+char* answer;
+char* pl; // predicted letters
 
-void randkelime() {
-    int soru;
+void randword() {
+    int ri; // random index
     srand(time(NULL));
 
-    soru=rand() %33;
+    ri=rand() %33;
 
-    cevap=new char[strlen(kelimegrup[soru])+1];
-    strcpy(cevap,kelimegrup[soru]);
-    teh=new char[strlen(cevap)+1];
-    memset(teh,'\0',strlen(cevap)+1);
+    answer=new char[strlen(words[ri])+1];
+    strcpy(answer,words[ri]);
+    pl=new char[strlen(answer)+1];
+    memset(pl,'\0',strlen(answer)+1);
 }
 
-void gosterge(){
-	setlocale(LC_ALL, "Turkish");
-    for(int i=0;i<strlen(cevap);++i){
-        if(strchr(teh,cevap[i])!='\0'){
-            cout<<cevap[i]<<" ";
+void display(){
+    for(int i=0;i<strlen(answer);++i){
+        if(strchr(pl,answer[i])!='\0'){
+            cout<<answer[i]<<" ";
         }
 		else{
             cout<<"_ ";
@@ -123,10 +121,10 @@ void gosterge(){
     cout<<endl;
 }
 
-puanhesapla(int y,int d){
-		
+int scor(int y,int d){
+
 	switch(y){
-		
+
 		case 0:
 			y=15;
 			break;
@@ -150,7 +148,7 @@ puanhesapla(int y,int d){
 			break;
 	}
 	switch(d){
-		
+
 		case 0:
 			d=0;
 			break;
@@ -176,83 +174,79 @@ puanhesapla(int y,int d){
 			d=14;
 			break;
 	}
-	
 	return d+y;
-	
 }
 
 int main(){
-    setlocale(LC_ALL, "Turkish");
 
-	int oyun;
+	int game;
 
 	cout<<"==================================================="<<endl
 		<<"                      WELCOME                      "<<endl<<endl<<endl
-		<<"Yeni Oyun (1)                                      "<<endl<<endl<<endl
-		<<"Katagori: Meyve-Sebze                              "<<endl<<endl<<endl
-		<<"��k�� (2)                                          "<<endl<<endl<<endl
+		<<"Start (1)                                          "<<endl<<endl<<endl
+		<<"Quit  (2)                                          "<<endl<<endl
 		<<"==================================================="<<endl;
 
-		cin>>oyun;
-		
-		if(oyun!=1) return 0;
+	cin>>game;
 
-    int ys=0, ds=0, h; // yanl�� say�s�, do�ru say�s�, harf say�s�
-    char c; // girilen harf
+	if(game!=1) return 0;
 
-    randkelime();
-    h=strlen(cevap);
+    int wn=0, cn=0, l; // number of wrong guess, correct guess and letters
+    char c; // letter input
 
-    while(ys<6 && ds<h){
-    	
-        Hangman(ys+1);
-        
-        gosterge();
-        bool harfBulundu=false;
-        
-        cout<<"Bir harf giriniz: \t";
+    randword();
+    l=strlen(answer);
+
+    while(wn<6 && cn<l){
+
+        Hangman(wn+1);
+
+        display();
+        bool letterFound=false;
+
+        cout<<"Enter a letter: \t";
         cin>>c;
 
-		if(strchr(teh,c)!='\0'){
-            cout<<"Bu harfi zaten tahmin ettiniz. Tekrar deneyin."<<endl;
+		if(strchr(pl,c)!='\0'){
+            cout<<"You have already guessed this letter. Try it again."<<endl;
             continue;
         }
-		strncat(teh,&c,1);
+		strncat(pl,&c,1);
 
-		cout<<"Kullan�lan Harfler: ";
-    	for (int i=0;i<strlen(teh)+1;++i) {
-        	cout<<teh[i]<<" ";
+		cout<<"Used Letters: ";
+    	for (int i=0;i<strlen(pl)+1;++i) {
+        	cout<<pl[i]<<" ";
     	}
     	cout<<endl;
 
-        for(int i=0;i<h;i++){
-            if(c==cevap[i]){
-                cout<<i+1<<". harfi buldunuz\n";
-                ++ds;
-                harfBulundu=true;
+        for(int i=0;i<l;i++){
+            if(c==answer[i]){
+                cout<<"You have found "<<i+1<<". letter\n";
+                ++cn;
+                letterFound=true;
             }
         }
-        if(!harfBulundu){
-            ++ys;
+        if(!letterFound){
+            ++wn;
         }
 
     }
-    
-	Hangman(ys+1);
-	
-    if(ys==6){
-        cout<<"Kaybettiniz! Do�ru kelime: "<<cevap<<endl;
+
+	Hangman(wn+1);
+
+    if(wn==6){
+        cout<<"You lost! Hidden word: "<<answer<<endl;
     }
 	else{
-        cout<<"Tebrikler! Kazand�n�z. Do�ru kelime: "<<cevap<<endl<<endl;
+        cout<<"Congratulations! You won. Hidden word: "<<answer<<endl<<endl;
     }
-	
-	cout<<"Bu oyunki puan�n�z: "<<puanhesapla(ys,ds)<<endl<<endl;
-	
-    delete[] cevap;
-    delete[] teh;
+
+	cout<<"Your scor: "<<scor(wn,cn)<<endl<<endl;
+
+    delete[] answer;
+    delete[] pl;
 
 	system("pause");
-	
+
     return 0;
 }
