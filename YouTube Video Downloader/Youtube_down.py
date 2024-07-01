@@ -67,6 +67,9 @@ try:
     exit_button = tk.Button(main_window, text="Exit", command=main_window.quit)
     exit_button.grid(row=4, column=1)
 
+    label3 = tk.Label(main_window, text="made by Emirhan Oğuz", font="Helvetica 7")
+    label3.grid(row=5, column=0)
+
     main_window.mainloop()
 except Exception as e:
     print("An error occurred:", str(e))
